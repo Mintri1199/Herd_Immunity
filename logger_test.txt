@@ -1,0 +1,8 @@
+10000    0.7    Ebola    0.5    0.25
+1 has infected 2
+2 is vaccinated
+2 is already sick
+1 fails to infect 2
+3 died from the infection
+4 survived the infection
+Time step 1 ended, beginning 2
