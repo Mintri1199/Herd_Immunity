@@ -1,9 +1,8 @@
 import random
-# TODO: Import the virus class
 
 
 class Person(object):
-
+    # Necessary Attributes
     def __init__(self, _id, is_vaccinated=bool, infection=None):
         self._id = _id
         self.is_vaccinated = is_vaccinated
@@ -22,3 +21,5 @@ class Person(object):
                 self.is_vaccinated = True
                 self.infection = None
                 return True
+        else:
+            return True
