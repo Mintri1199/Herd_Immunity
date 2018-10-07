@@ -69,15 +69,29 @@ class Simulation(object):
         print('The simulation has ended after {} turns.'.format(time_step_counter))
 
     def time_step(self):
-            pass
+        pass
 
     def interaction(self, person, random_person):
         assert person.is_alive == True
         assert random_person.is_alive == True
-        pass
+
+        if random_person.is_vaccinated:
+            self.logger.log_interaction(person, random_person, False, True, False)
+        if random_person.infection is not None:
+            self.logger.log_interaction(person, random_person, False, False, True)
+        else:
+            if random.random() < basic_repro_num:
+                self.logger.log_interaction(person, random_person, True, False, False)
+                self.newly_infected.append(random_person._id)
+            else:
+                self.logger.log_interaction(person, random_person, False, False, False)
 
     def _infect_newly_infected(self):
-        pass
+        for id in self.newly_infected:
+            for person in self.population:
+                if person._id == id:
+                    person.infection = self.virus
+        self.newly_infected = []
 
 
 if __name__ == "__main__":

@@ -38,3 +38,19 @@ class SimulationTest(unittest.TestCase):
             person.infection = None
             person.is_vaccinated = True
         assert self.new_sim._simulation_should_continue() is False
+
+    def test_newly_infected_method_empty_list(self):
+        self.new_sim._create_population()
+        self.new_sim.newly_infected = [10000, 9999, 9998, 9997]
+        self.new_sim._infect_newly_infected()
+        assert len(self.new_sim.newly_infected) == 0
+
+    def test_newly_infected_method(self):
+        list = [10000, 9999, 9998, 9997]
+        self.new_sim.newly_infected = list
+        self.new_sim._infect_newly_infected()
+
+        for id in list:
+            for person in self.new_sim.population:
+                if person._id == id:
+                    assert person.infection is not None
