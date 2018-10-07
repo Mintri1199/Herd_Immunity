@@ -18,7 +18,7 @@ class Simulation(object):
         self.current_infected = 0
         self.next_person_id = 0
         self.virus = Virus(virus_name, mortality_rate, basic_repro_num)
-
+        self.basic_repro_num = basic_repro_num
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
             virus_name, population_size, vacc_percentage, initial_infected)
 
@@ -67,7 +67,17 @@ class Simulation(object):
         print('The simulation has ended after {} turns.'.format(time_step_counter))
 
     def time_step(self):
-        pass
+        number_of_interaction = 1
+        for person in self.population:
+            while number_of_interaction <= 100:
+                rando = random.choice(self.population)
+                # Prevent interaction with dead corpse and with it self
+                while rando.is_alive is False or rando._id == person._id:
+                    rando = random.choice(self.population)
+
+                self.interaction(person, rando)
+                number_of_interaction += 1
+            number_of_interaction = 1
 
     def interaction(self, person, random_person):
         assert person.is_alive == True
@@ -78,7 +88,7 @@ class Simulation(object):
         if random_person.infection is not None:
             self.logger.log_interaction(person, random_person, False, False, True)
         else:
-            if random.random() < basic_repro_num:
+            if random.random() < self.basic_repro_num:
                 self.logger.log_interaction(person, random_person, True, False, False)
                 self.newly_infected.append(random_person._id)
             else:

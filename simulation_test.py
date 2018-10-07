@@ -1,4 +1,5 @@
 import unittest
+import random
 from simulation import Simulation
 from person import Person
 
@@ -6,6 +7,7 @@ from person import Person
 class SimulationTest(unittest.TestCase):
     def setUp(self):
         self.new_sim = Simulation(10000, 0.25, "Ebola", 0.5, 0.25, 100)
+        self.smaller_sim = Simulation(10, 0.25, "Ebola", 0.5, 0.25, 1)
 
     def test_create_population_method(self):
         infected_count = 0
@@ -49,8 +51,22 @@ class SimulationTest(unittest.TestCase):
         list = [10000, 9999, 9998, 9997]
         self.new_sim.newly_infected = list
         self.new_sim._infect_newly_infected()
-
         for id in list:
             for person in self.new_sim.population:
                 if person._id == id:
                     assert person.infection is not None
+
+    def test_unique_interaction(self):
+        self.smaller_sim._create_population()
+        number_of_interaction = 1
+        for person in self.smaller_sim.population:
+            while number_of_interaction <= 100:
+                rando = random.choice(self.smaller_sim.population)
+                # Prevent interaction with dead corpse and with it self
+                while rando.is_alive is False or rando._id == person._id:
+                    rando = random.choice(self.smaller_sim.population)
+                assert person._id is not rando._id
+                assert rando.is_alive is True
+                self.smaller_sim.interaction(person, rando)
+                number_of_interaction += 1
+            number_of_interaction = 1
