@@ -7,7 +7,7 @@ from person import Person
 class SimulationTest(unittest.TestCase):
     def setUp(self):
         self.new_sim = Simulation(10000, 0.25, "Ebola", 0.5, 0.25, 100)
-        self.smaller_sim = Simulation(10, 0.25, "Ebola", 0.5, 0.25, 1)
+        self.smaller_sim = Simulation(10, 0.25, "Ebola", 0.5, 0.25, 5)
 
     def test_create_population_method(self):
         infected_count = 0

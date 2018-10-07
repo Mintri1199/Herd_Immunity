@@ -38,6 +38,7 @@ class Simulation(object):
                 self.next_person_id += 1
 
     # Flag for the run method
+    # TODO: Fix this
     def _simulation_should_continue(self):
         self.current_infected = 0  # Reset the variable
         death = 0
@@ -61,8 +62,10 @@ class Simulation(object):
 
     def run(self):
         time_step_counter = 0
-        should_continue = True
+
         self._create_population()
+
+        should_continue = self._simulation_should_continue()
 
         while should_continue:
             # Initiate interaction with 100 people for each person
@@ -70,27 +73,32 @@ class Simulation(object):
 
             # Check if anyone died after interacting with 100 people
             for person in self.population:
-                person.did_survive_infection()
-                self.logger.log_infection_survival(person, person.is_alive)
+                self.logger.log_infection_survival(person, person.did_survive_infection())
+
+            self._infect_newly_infected()
 
             should_continue = self._simulation_should_continue()
+
             self.logger.log_time_step(time_step_counter)
             time_step_counter += 1
 
-        print('The simulation has ended after {} turns.'.format(time_step_counter))
+        print('The simulation has ended after {} turns.'.format(time_step_counter - 1))
 
     def time_step(self):
         number_of_interaction = 1
         for person in self.population:
-            while number_of_interaction <= 100:
-                rando = random.choice(self.population)
-                # Prevent interaction with dead corpse and with it self
-                while rando.is_alive is False or rando._id == person._id:
+            if person.is_alive is True:
+                while number_of_interaction <= 100:
                     rando = random.choice(self.population)
+                    # Prevent interaction with dead corpse and with it self
+                    while rando.is_alive is False or rando._id == person._id:
+                        rando = random.choice(self.population)
 
-                self.interaction(person, rando)
-                number_of_interaction += 1
-            number_of_interaction = 1
+                    self.interaction(person, rando)
+                    number_of_interaction += 1
+                number_of_interaction = 1
+            else:
+                pass
 
     def interaction(self, person, random_person):
         assert person.is_alive == True
@@ -115,5 +123,5 @@ class Simulation(object):
         self.newly_infected = []
 
 
-new_simulation = Simulation(500, 0.90, "Ebola", 0.70, 0.25, 100)
+new_simulation = Simulation(200, 0.90, "Ebola", 0.70, 0.25, 50)
 new_simulation.run()
