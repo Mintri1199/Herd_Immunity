@@ -19,3 +19,22 @@ class SimulationTest(unittest.TestCase):
 
         assert infected_count == 100
 
+    def test_should_continue_method(self):
+        self.new_sim._create_population()
+        assert self.new_sim._simulation_should_continue() is True
+
+    def test_should_continue_method_deaths_case(self):
+        self.new_sim._create_population()
+
+        for person in self.new_sim.population:
+            person.is_alive = False
+        assert self.new_sim._simulation_should_continue() is False
+
+    def test_should_continue_method_cure_case(self):
+        self.new_sim._create_population()
+
+        for person in self.new_sim.population:
+            person.is_alive = True
+            person.infection = None
+            person.is_vaccinated = True
+        assert self.new_sim._simulation_should_continue() is False
