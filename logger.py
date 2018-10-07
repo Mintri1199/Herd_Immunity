@@ -28,7 +28,7 @@ class Logger(object):
     # Record whether the person die or survived from the infection
     def log_infection_survival(self, person=object, did_die_from_infection=bool):
         with open(self.file_name, "a") as file:
-            if did_die_from_infection:
+            if did_die_from_infection is False:
                 file.write("{} died from the infection\n".format(person._id))
             else:
                 file.write("{} survived the infection\n".format(person._id))

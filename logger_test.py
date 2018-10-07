@@ -3,13 +3,14 @@ from person import Person
 from virus import Virus
 
 
-deadly_virus = Virus("Deadly", 1, 1)
-weak_virus  = Virus("Weak", 0, 0)
+deadly_virus = Virus("Deadly", 0.99, 0.99)
+weak_virus = Virus("Weak", 0, 0)
 
-dummy  = Person(1, False, False)
+dummy = Person(1, False, False)
 dummy2 = Person(2, False, False)
 
 dying_person = Person(3, False, deadly_virus)
+print(dying_person.did_survive_infection())
 healthy_person = Person(4, False, weak_virus)
 
 new_log = Logger("logger_test.txt")

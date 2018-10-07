@@ -7,7 +7,8 @@ class PersonTest(unittest.TestCase):
     # Set up the virus objects for tests
     def setUp(self):
         self.weak_virus = Virus("Weak", 0, 0)
-        self.deadly_virus = Virus("Deadly", 1, 1)
+        self.deadly_virus = Virus("Deadly", 0.99, 0.99)
+
 
     # Checking the instantiation of person object with virus
     def test_person_instantiation(self):
