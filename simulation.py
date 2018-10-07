@@ -53,10 +53,8 @@ class Simulation(object):
         self.total_infected = self.current_infected  # Set the total infected population
 
         if death == len(self.population):
-            print("Died")
             return False
         if self.total_infected == 0:
-            print("Cured")
             return False
         else:
             return True
