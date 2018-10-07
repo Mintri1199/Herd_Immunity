@@ -61,9 +61,22 @@ class Simulation(object):
 
     def run(self):
         time_step_counter = 0
-        should_continue = self._simulation_should_continue()
+        should_continue = True
+        self._create_population()
+
         while should_continue:
-            pass
+            # Initiate interaction with 100 people for each person
+            self.time_step()
+
+            # Check if anyone died after interacting with 100 people
+            for person in self.population:
+                person.did_survive_infection()
+                self.logger.log_infection_survival(person, person.is_alive)
+
+            should_continue = self._simulation_should_continue()
+            self.logger.log_time_step(time_step_counter)
+            time_step_counter += 1
+
         print('The simulation has ended after {} turns.'.format(time_step_counter))
 
     def time_step(self):
@@ -102,17 +115,5 @@ class Simulation(object):
         self.newly_infected = []
 
 
-if __name__ == "__main__":
-    params = sys.argv[1:]
-    pop_size = int(params[0])
-    vacc_percentage = float(params[1])
-    virus_name = str(params[2])
-    mortality_rate = float(params[3])
-    basic_repro_num = float(params[4])
-    if len(params) == 6:
-        initial_infected = int(params[5])
-    else:
-        initial_infected = 1
-    simulation = Simulation(pop_size, vacc_percentage, virus_name, mortality_rate,
-                            basic_repro_num, initial_infected)
-    simulation.run()
+new_simulation = Simulation(500, 0.90, "Ebola", 0.70, 0.25, 100)
+new_simulation.run()
