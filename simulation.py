@@ -1,39 +1,45 @@
-import random, sys
-random.seed(42)
 from person import Person
 from logger import Logger
+from virus import Virus
+import random, sys
+random.seed(42)
 
 
 class Simulation(object):
 
-
     def __init__(self, population_size, vacc_percentage, virus_name,
                  mortality_rate, basic_repro_num, initial_infected=1):
+
+        self.initial_infected = initial_infected
         self.population_size = population_size
         self.population = []
         self.total_infected = 0
         self.current_infected = 0
         self.next_person_id = 0
-        self.virus_name = virus_name
-        self.mortality_rate = mortality_rate
-        self.basic_repro_num = basic_repro_num
+        self.virus = Virus(virus_name, mortality_rate, basic_repro_num)
+
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
             virus_name, population_size, vacc_percentage, initial_infected)
-        self.logger = None
 
+        self.logger = Logger(self.file_name)
         self.newly_infected = []
 
-    def _create_population(self, initial_infected):
-        population = []
+    # Creating person objects to match the population size
+    def _create_population(self):
         infected_count = 0
-        while len(population) != pop_size:
-            if infected_count !=  initial_infected:
-                pass
+        while len(self.population) != self.population_size:
+            if infected_count != self.initial_infected:
+                self.population.append(Person(self.next_person_id, False, self.virus))
+                infected_count += 1
+                self.next_person_id += 1
             else:
-                pass
-        return population
+                self.population.append(Person(self.next_person_id, False, None))
+                self.next_person_id += 1
+
+        self.current_infected = infected_count
 
     def _simulation_should_continue(self):
+
         pass
 
     def run(self):
@@ -41,7 +47,7 @@ class Simulation(object):
         should_continue = None
         while should_continue:
             pass
-        print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
+        print('The simulation has ended after {} turns.'.format(time_step_counter))
 
     def time_step(self):
             pass
