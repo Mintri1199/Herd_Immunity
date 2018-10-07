@@ -26,15 +26,17 @@ class Logger(object):
                     file.write("{} fails to infect {}\n".format(person1._id, person2._id))
 
     # Record whether the person die or survived from the infection
-    def log_infection_survival(self, person=object, did_die_from_infection=bool):
+    def log_infection_survival(self, person, did_die_from_infection):
         with open(self.file_name, "a") as file:
             if did_die_from_infection is False:
                 file.write("{} died from the infection\n".format(person._id))
+            elif did_die_from_infection is None:
+                file.write(("{} hasn't been infected yet.\n".format(person._id)))
             else:
                 file.write("{} survived the infection\n".format(person._id))
 
     # Record the number of cycles has happened in the simulation
     def log_time_step(self, time_step_number):
         with open(self.file_name, "a") as file:
-            file.write("Time step {} ended, beginning {}".format(time_step_number, time_step_number + 1))
+            file.write("Time step {} ended, beginning {}\n".format(time_step_number, time_step_number + 1))
 
