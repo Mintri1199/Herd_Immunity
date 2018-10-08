@@ -11,6 +11,9 @@ class Person(object):
 
     # Checking if the person survive the infection
     def did_survive_infection(self):
+        if self.is_vaccinated is False and self.infection is None:
+            return None
+
         if self.infection is not None:
             check_num = random.random()
             if check_num > self.infection.mort_rate:

@@ -3,3 +3,4 @@ class Virus:
         self.name = name
         self.mort_rate = mort_rate
         self.repro_rate = repro_rate
+
