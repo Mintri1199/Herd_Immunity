@@ -41,21 +41,20 @@ class Simulation(object):
     # TODO: Fix this
     def _simulation_should_continue(self):
         self.current_infected = 0  # Reset the variable
-        death = 0
-
+        self.current_death = 0
         for person in self.population:
             if person.is_alive is False:
-                death += 1
+                self.current_death += 1
 
         for person in self.population:  # Recount the infected population ignoring the dead ones
             if person.infection and person.is_alive:
                 self.current_infected += 1
 
-        self.total_infected = self.current_infected  # Set the total infected population
+        self.total_death = self.current_death
 
-        if death == len(self.population):
+        if self.current_death == len(self.population):
             return False
-        if self.total_infected == 0:
+        if self.current_infected == 0:
             return False
         else:
             return True
@@ -68,6 +67,7 @@ class Simulation(object):
         should_continue = self._simulation_should_continue()
 
         while should_continue:
+            self.total_infected = 0
             # Initiate interaction with 100 people for each person
             self.time_step()
 
@@ -77,11 +77,17 @@ class Simulation(object):
 
             self._infect_newly_infected()
 
+            for person in self.population:
+                if person.infection is not None:
+                    self.total_infected += 1
+
+            print(self.total_infected)
+
             should_continue = self._simulation_should_continue()
 
             self.logger.log_time_step(time_step_counter)
             time_step_counter += 1
-
+        print("{} people died".format(self.total_death))
         print('The simulation has ended after {} turns.'.format(time_step_counter - 1))
 
     def time_step(self):
