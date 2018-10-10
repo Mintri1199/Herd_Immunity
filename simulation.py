@@ -38,7 +38,6 @@ class Simulation(object):
                 self.next_person_id += 1
 
     # Flag for the run method
-    # TODO: Fix this
     def _simulation_should_continue(self):
         self.current_infected = 0  # Reset the variable
         self.current_death = 0
