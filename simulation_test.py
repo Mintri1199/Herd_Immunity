@@ -1,17 +1,16 @@
 import unittest
 import random
 from simulation import Simulation
-from person import Person
 
 
 class SimulationTest(unittest.TestCase):
     def setUp(self):
-        self.new_sim = Simulation(10000, 0.25, "Ebola", 0.5, 0.25, 100)
+        self.new_sim = Simulation(10000, 0.5, "Ebola", 0.5, 0.25, 100)
         self.smaller_sim = Simulation(10, 0.25, "Ebola", 0.5, 0.25, 5)
 
     def test_create_population_method(self):
         infected_count = 0
-
+        vaccinated = 0
         self.new_sim._create_population()
         assert len(self.new_sim.population) == 10000
 
@@ -20,6 +19,12 @@ class SimulationTest(unittest.TestCase):
                 infected_count += 1
 
         assert infected_count == 100
+
+        for person in self.new_sim.population:
+            if person.is_vaccinated and person.infection is None:
+                vaccinated += 1
+
+        assert vaccinated == 4950
 
     def test_should_continue_method(self):
         self.new_sim._create_population()
