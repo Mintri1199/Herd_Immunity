@@ -1,4 +1,4 @@
-10000    0.7    Ebola    0.5    0.25
+Population:10000    Vaccination_percentage:0.7    Virus_name:Ebola    Mortality_rate:0.5    Reproduction_Rate:0.25
 1 has infected 2
 2 is vaccinated
 2 is already sick
