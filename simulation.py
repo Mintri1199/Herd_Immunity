@@ -13,7 +13,9 @@ class Simulation(object):
         self.initial_infected = initial_infected
         self.population_size = population_size
         self.vacc_percentage = vacc_percentage
+        self.mortality_rate = mortality_rate
         self.population = []
+        self.virus_name = virus_name
         self.current_death = 0
         self.total_infected = 0
         self.current_infected = 0
@@ -38,6 +40,10 @@ class Simulation(object):
                 infected_count += 1
                 self.next_person_id += 1
 
+            elif random.random() < self.vacc_percentage:
+                self.population.append(Person(self.next_person_id, True, None))
+                self.next_person_id += 1
+
             else:
 
                 self.population.append(Person(self.next_person_id, False, None))
@@ -46,11 +52,6 @@ class Simulation(object):
 
         initial_vacc = int(healthy_count * self.vacc_percentage)
 
-        for person in self.population:
-            if person.infection is None:
-                if vacc_count != initial_vacc:
-                    person.is_vaccinated = True
-                    vacc_count += 1
 
 
 
@@ -82,7 +83,8 @@ class Simulation(object):
         self._create_population()
 
         should_continue = self._simulation_should_continue()
-
+        self.logger.write_metadata(self.population_size, self.vacc_percentage,
+                                   self.virus_name, self.basic_repro_num, self.mortality_rate)
         while should_continue:
             self.total_infected = 0
             # Initiate interaction with 100 people for each person
