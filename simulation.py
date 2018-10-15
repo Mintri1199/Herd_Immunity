@@ -31,8 +31,6 @@ class Simulation(object):
     # Creating person objects to match the population size
     def _create_population(self):
         infected_count = 0
-        healthy_count = 0
-        vacc_count = 0
 
         while len(self.population) != self.population_size:
             if infected_count != self.initial_infected:
@@ -48,12 +46,6 @@ class Simulation(object):
 
                 self.population.append(Person(self.next_person_id, False, None))
                 self.next_person_id += 1
-                healthy_count += 1
-
-        initial_vacc = int(healthy_count * self.vacc_percentage)
-
-
-
 
 
     # Flag for the run method
