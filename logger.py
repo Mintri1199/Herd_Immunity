@@ -6,7 +6,8 @@ class Logger(object):
     # Write the First line of the file
     def write_metadata(self, pop_size, vacc_percentage, virus_name, mortality_rate,
                        basic_repro_num):
-        first_line = str(("{} {} {} {} {}\n".format(pop_size, vacc_percentage,
+        first_line = str(("Population:{} Vaccination_percentage:{} Virus_name:{} Mortality_rate:{} "
+                          "Reproduction_Rate:{}\n".format(pop_size, vacc_percentage,
                                           virus_name, mortality_rate,
                                           basic_repro_num))).replace(" ", "    ")
 
